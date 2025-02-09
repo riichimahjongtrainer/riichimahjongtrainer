@@ -1,12 +1,12 @@
 {
   "files": {
-    "main.js": "/riichimahjongtrainer/static/js/main.b1ef597b.js",
+    "main.js": "/riichimahjongtrainer/static/js/main.f96f0210.js",
     "static/js/488.9dc14b42.chunk.js": "/riichimahjongtrainer/static/js/488.9dc14b42.chunk.js",
     "index.html": "/riichimahjongtrainer/index.html",
-    "main.b1ef597b.js.map": "/riichimahjongtrainer/static/js/main.b1ef597b.js.map",
+    "main.f96f0210.js.map": "/riichimahjongtrainer/static/js/main.f96f0210.js.map",
     "488.9dc14b42.chunk.js.map": "/riichimahjongtrainer/static/js/488.9dc14b42.chunk.js.map"
   },
   "entrypoints": [
-    "static/js/main.b1ef597b.js"
+    "static/js/main.f96f0210.js"
   ]
 }
