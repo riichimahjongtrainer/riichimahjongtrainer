@@ -41,8 +41,6 @@
         "5z.png",
         "6z.png",
         "7z.png",
-        "8z.png",
-        "9z.png",
 
         "-0m.png",
         "-1m.png",
@@ -85,8 +83,6 @@
         "-5z.png",
         "-6z.png",
         "-7z.png",
-        "-8z.png",
-        "-9z.png",
 
         "=0m.png",
         "=1m.png",
@@ -129,18 +125,12 @@
         "=5z.png",
         "=6z.png",
         "=7z.png",
-        "=8z.png",
-        "=9z.png",
 
-        "default.png",
-        "space.png",
         "v0m.png",
         "v0p.png",
         "v0s.png",
         "v5m.png",
         "v5p.png",
-        "v5s.png",
-
-        "user.png"
+        "v5s.png"
     ]
 }
