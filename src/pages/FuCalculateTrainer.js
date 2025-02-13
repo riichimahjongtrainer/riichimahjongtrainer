@@ -321,7 +321,7 @@ const renderHandSequence = (tiles, isWinningMeld, winningTileIndex) => {
                         width: "clamp(25px, 5vw, 50px)",
                         height: "auto",
                         borderRadius: "5px",
-                        filter: isWinningMeld && j === winningTileIndex ? "sepia(130%) hue-rotate(10deg) saturate(300%)" : "",
+                        filter: isWinningMeld && j === winningTileIndex ? "sepia(130%) hue-rotate(10deg) saturate(500%)" : "",
                         display: "inline-block",
                     }}
                     alt={tile}
@@ -342,7 +342,7 @@ const renderHandTriplet = (tiles, isWinningMeld) => {
                         width: "clamp(25px, 5vw, 50px)",
                         height: "auto",
                         borderRadius: "5px",
-                        filter: isWinningMeld && j === 2 ? "sepia(130%) hue-rotate(10deg) saturate(300%)" : "",
+                        filter: isWinningMeld && j === 2 ? "sepia(130%) hue-rotate(10deg) saturate(500%)" : "",
                         display: "inline-block",
                     }}
                     alt={tile}
@@ -363,7 +363,7 @@ const renderHandPairs = (tiles, isWinningMeld) => {
                         width: "clamp(25px, 5vw, 50px)",
                         height: "auto",
                         borderRadius: "5px",
-                        filter: isWinningMeld && j === 1 ? "sepia(130%) hue-rotate(10deg) saturate(300%)" : "",
+                        filter: isWinningMeld && j === 1 ? "sepia(130%) hue-rotate(10deg) saturate(500%)" : "",
                         display: "inline-block",
                     }}
                     alt={tile}
@@ -500,11 +500,11 @@ function FuCalculator() {
 
     const initial = () => {
         let hands = generateValidHand();
-        // 避免四暗刻役滿情況
-        let isFourCards = hands.melds.every((item) => ["手牌刻子", "手牌雀頭", "暗槓"].includes(item.type));
-        while (isFourCards) {
+
+        let isSuuankou = hands.melds.every((item) => ["手牌刻子", "手牌雀頭", "暗槓"].includes(item.type));
+        while (isSuuankou) {
             hands = generateValidHand();
-            isFourCards = hands.melds.every((item) => ["手牌刻子", "手牌雀頭", "暗槓"].includes(item.type));
+            isSuuankou = hands.melds.every((item) => ["手牌刻子", "手牌雀頭", "暗槓"].includes(item.type));
         }
         setCurrentHand(hands);
         setRandomNumber(Math.random());
@@ -646,69 +646,54 @@ function FuCalculator() {
                                     </td>
                                 ))}
                         </tr>
-                        <tr>
-                            {isSummit && !result.isPinfuTsumo && !result.isChowTwentyFu && (
-                                <td colSpan={5} style={{ height: "40px", textAlign: "center" }}>
-                                    <div style={{ display: "inline-flex", gap: "20px" }}>
-                                        <div style={{ textAlign: "center", fontSize: "clamp(14px, 2vw, 18px)" }}>底符 20 符</div>
-                                        {!currentHand.isTsumo && currentHand.isMenzen ? <div style={{ textAlign: "center", fontSize: "clamp(14px, 2vw, 18px)" }}>門清榮和 10 符</div> : null}
-                                        {currentHand.isTsumo ? <div style={{ textAlign: "center", fontSize: "clamp(14px, 2vw, 18px)" }}>自摸和 2 符</div> : null}
-                                        {currentHand.waitType === "單騎" ? <div style={{ textAlign: "center", fontSize: "clamp(14px, 2vw, 18px)" }}>單騎聽牌 2 符</div> : null}
-                                        {currentHand.waitType === "邊張" ? <div style={{ textAlign: "center", fontSize: "clamp(14px, 2vw, 18px)" }}>邊張聽牌 2 符</div> : null}
-                                        {currentHand.waitType === "嵌張" ? <div style={{ textAlign: "center", fontSize: "clamp(14px, 2vw, 18px)" }}>嵌張聽牌 2 符</div> : null}
-                                    </div>
-                                </td>
-                            )}
-                        </tr>
-                        <tr>
-                            {isSummit && !result.isPinfuTsumo && !result.isChowTwentyFu && (
-                                <td colSpan={5} style={{ height: "40px", textAlign: "center" }}>
-                                    {result.fuNotCeil === result.correctFu && (
-                                        <div style={{ textAlign: "center", fontSize: "clamp(18px, 2vw, 22px)", fontWeight: "bold" }}>共 {result.correctFu} 符</div>
-                                    )}
-                                    {result.fuNotCeil !== result.correctFu && (
-                                        <div style={{ textAlign: "center", fontSize: "clamp(18px, 2vw, 22px)", fontWeight: "bold", display: "inline-flex", gap: "10px" }}>
-                                            <div>共 {result.fuNotCeil} 符</div>
-                                            <div>進位 {result.correctFu} 符</div>
-                                        </div>
-                                    )}
-                                </td>
-                            )}
-                            {isSummit && result.isPinfuTsumo && (
-                                <td colSpan={5} style={{ height: "40px", textAlign: "center" }}>
-                                    <div style={{ textAlign: "center", fontSize: "22px", fontWeight: "bold" }}>平和自摸 20 符</div>
-                                </td>
-                            )}
-                            {isSummit && result.isChowTwentyFu && (
-                                <td colSpan={5} style={{ height: "40px", textAlign: "center" }}>
-                                    <div style={{ textAlign: "center", fontSize: "22px", fontWeight: "bold" }}>吃牌後 20 符，計為 30 符</div>
-                                </td>
-                            )}
-                        </tr>
-                        <tr>
-                            {isSummit && (
-                                <td colSpan={5} style={{ height: "40px", textAlign: "center" }}>
-                                    <div
-                                        style={{
-                                            margin: "10px 0",
-                                            padding: "10px 50px",
-                                            backgroundColor: result.correct ? "#d4edda" : "#f8d7da",
-                                            border: `2px solid ${result.correct ? "#28a745" : "#dc3545"}`,
-                                            borderRadius: "10px",
-                                            justifySelf: "center",
-                                            fontSize: "20px",
-                                            fontWeight: "bold",
-                                            color: result.correct ? "#28a745" : "#dc3545",
-                                        }}
-                                    >
-                                        {result.correct ? "正確！" : `錯誤！`}
-                                    </div>
-                                </td>
-                            )}
-                        </tr>
+                        <tr></tr>
+                        <tr></tr>
                     </tbody>
                 </table>
             </div>
+
+            {isSummit && !result.isPinfuTsumo && !result.isChowTwentyFu && (
+                <div style={{ display: "inline-flex", gap: "20px", marginTop: "10px" }}>
+                    <div style={{ textAlign: "center", fontSize: "clamp(14px, 2vw, 18px)" }}>底符 20 符</div>
+                    {!currentHand.isTsumo && currentHand.isMenzen ? <div style={{ textAlign: "center", fontSize: "clamp(14px, 2vw, 18px)" }}>門清榮和 10 符</div> : null}
+                    {currentHand.isTsumo ? <div style={{ textAlign: "center", fontSize: "clamp(14px, 2vw, 18px)" }}>自摸和 2 符</div> : null}
+                    {currentHand.waitType === "單騎" ? <div style={{ textAlign: "center", fontSize: "clamp(14px, 2vw, 18px)" }}>單騎聽牌 2 符</div> : null}
+                    {currentHand.waitType === "邊張" ? <div style={{ textAlign: "center", fontSize: "clamp(14px, 2vw, 18px)" }}>邊張聽牌 2 符</div> : null}
+                    {currentHand.waitType === "嵌張" ? <div style={{ textAlign: "center", fontSize: "clamp(14px, 2vw, 18px)" }}>嵌張聽牌 2 符</div> : null}
+                </div>
+            )}
+
+            {isSummit && !result.isPinfuTsumo && !result.isChowTwentyFu && (
+                <div style={{ display: "inline-flex", gap: "20px", marginTop: "10px" }}>
+                    {result.fuNotCeil === result.correctFu && <div style={{ textAlign: "center", fontSize: "clamp(18px, 2vw, 22px)", fontWeight: "bold" }}>共 {result.correctFu} 符</div>}
+                    {result.fuNotCeil !== result.correctFu && (
+                        <div style={{ textAlign: "center", fontSize: "clamp(18px, 2vw, 22px)", fontWeight: "bold", display: "inline-flex", gap: "10px" }}>
+                            <div>共 {result.fuNotCeil} 符</div>
+                            <div>進位 {result.correctFu} 符</div>
+                        </div>
+                    )}
+                </div>
+            )}
+            {isSummit && result.isPinfuTsumo && <div style={{ textAlign: "center", fontSize: "22px", fontWeight: "bold", marginTop: "10px" }}>平和自摸 20 符</div>}
+            {isSummit && result.isChowTwentyFu && <div style={{ textAlign: "center", fontSize: "22px", fontWeight: "bold", marginTop: "10px" }}>吃牌後 20 符，計為 30 符</div>}
+
+            {isSummit && (
+                <div
+                    style={{
+                        margin: "10px 0",
+                        padding: "10px 50px",
+                        backgroundColor: result.correct ? "#d4edda" : "#f8d7da",
+                        border: `2px solid ${result.correct ? "#28a745" : "#dc3545"}`,
+                        borderRadius: "10px",
+                        justifySelf: "center",
+                        fontSize: "20px",
+                        fontWeight: "bold",
+                        color: result.correct ? "#28a745" : "#dc3545",
+                    }}
+                >
+                    {result.correct ? "正確！" : `錯誤！`}
+                </div>
+            )}
 
             {/* 算符規則 */}
             {isTable && (
@@ -717,7 +702,7 @@ function FuCalculator() {
                         maxWidth: "100%",
                         textAlign: "center",
                         overflow: "auto",
-                        marginTop: "10px",
+                        marginTop: "40px",
                     }}
                 >
                     <table border="1" style={{ width: "100%", borderCollapse: "collapse" }}>
@@ -727,115 +712,172 @@ function FuCalculator() {
                             </td>
                         </tr>
                         <tr>
-                            <td style={{ padding: "10px", fontSize: "18px", fontWeight: "bold" }}>聽牌符</td>
-                            <td style={{ padding: "10px", verticalAlign: "bottom", justifyItems: "center" }}>
-                                <div style={{ fontSize: "18px" }}>單騎聽牌 2 符</div>
-                                <div style={{ marginTop: "10px", padding: "5px", display: "inline-flex", gap: "10px" }}>{renderHandPairs(["5z", "5z"], true)}</div>
+                            <td rowSpan={2} style={{ padding: "10px", fontSize: "18px", fontWeight: "bold" }}>
+                                聽牌符
                             </td>
-                            <td style={{ padding: "10px", verticalAlign: "bottom", justifyItems: "center" }}>
-                                <div style={{ fontSize: "18px" }}>邊張聽牌 2 符</div>
-                                <div style={{ marginTop: "10px", padding: "5px", display: "inline-flex", gap: "10px" }}>{renderHandSequence(["1m", "2m", "3m"], true, 2)}</div>
+
+                            <td style={{ padding: "5px", justifyItems: "center" }}>
+                                <div style={{ fontSize: "16px" }}>單騎聽牌 2 符</div>
                             </td>
-                            <td style={{ padding: "10px", verticalAlign: "bottom", justifyItems: "center" }}>
-                                <div style={{ fontSize: "18px" }}>嵌張聽牌 2 符</div>
-                                <div style={{ marginTop: "10px", padding: "5px", display: "inline-flex", gap: "10px" }}>{renderHandSequence(["1p", "2p", "3p"], true, 1)}</div>
+                            <td style={{ padding: "5px", justifyItems: "center" }}>
+                                <div style={{ fontSize: "16px" }}>邊張聽牌 2 符</div>
                             </td>
-                            <td style={{ padding: "10px", verticalAlign: "bottom", justifyItems: "center" }}>
-                                <div style={{ fontSize: "18px" }}>兩面聽牌 0 符</div>
-                                <div style={{ marginTop: "10px", padding: "5px", display: "inline-flex", gap: "10px" }}>{renderHandSequence(["1s", "2s", "3s"], true, 0)}</div>
+                            <td style={{ padding: "5px", justifyItems: "center" }}>
+                                <div style={{ fontSize: "16px" }}>嵌張聽牌 2 符</div>
                             </td>
-                            <td style={{ padding: "10px", verticalAlign: "bottom", justifyItems: "center" }}>
-                                <div style={{ fontSize: "18px" }}>雙碰聽牌 0 符</div>
-                                <div style={{ marginTop: "10px", padding: "5px", display: "inline-flex", gap: "10px" }}>
+                            <td style={{ padding: "5px", justifyItems: "center" }}>
+                                <div style={{ fontSize: "16px" }}>兩面聽牌 0 符</div>
+                            </td>
+                            <td style={{ padding: "5px", justifyItems: "center" }}>
+                                <div style={{ fontSize: "16px" }}>雙碰聽牌 0 符</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style={{ padding: "5px", verticalAlign: "bottom", justifyItems: "center" }}>
+                                <div style={{ padding: "5px", display: "inline-flex", gap: "10px" }}>{renderHandPairs(["5z", "5z"], true)}</div>
+                            </td>
+                            <td style={{ padding: "5px", verticalAlign: "bottom", justifyItems: "center" }}>
+                                <div style={{ padding: "5px", display: "inline-flex", gap: "10px" }}>{renderHandSequence(["1m", "2m", "3m"], true, 2)}</div>
+                            </td>
+                            <td style={{ padding: "5px", verticalAlign: "bottom", justifyItems: "center" }}>
+                                <div style={{ padding: "5px", display: "inline-flex", gap: "10px" }}>{renderHandSequence(["1p", "2p", "3p"], true, 1)}</div>
+                            </td>
+                            <td style={{ padding: "5px", verticalAlign: "bottom", justifyItems: "center" }}>
+                                <div style={{ padding: "5px", display: "inline-flex", gap: "10px" }}>{renderHandSequence(["1s", "2s", "3s"], true, 0)}</div>
+                            </td>
+                            <td style={{ padding: "5px", verticalAlign: "bottom", justifyItems: "center" }}>
+                                <div style={{ padding: "5px", display: "inline-flex", gap: "10px" }}>
                                     {renderHandTriplet(["6z", "6z", "6z"], true)}
                                     {renderHandPairs(["7z", "7z"], false)}
                                 </div>
                             </td>
                         </tr>
                         <tr>
-                            <td rowSpan={3} style={{ padding: "10px", fontSize: "18px", fontWeight: "bold" }}>
+                            <td rowSpan={6} style={{ padding: "10px", fontSize: "18px", fontWeight: "bold" }}>
                                 面子符
                             </td>
-                            <td style={{ padding: "10px", verticalAlign: "bottom", justifyItems: "center" }}>
-                                <div style={{ fontSize: "18px" }}>中張明刻 2 符</div>
-                                <div style={{ marginTop: "40px", padding: "5px", display: "inline-flex", gap: "10px" }}>{renderPong(["4m", "4m", "4m"], 0.1)}</div>
+                            <td style={{ padding: "5px", justifyItems: "center" }}>
+                                <div style={{ fontSize: "16px" }}>中張明刻 2 符</div>
                             </td>
-                            <td style={{ padding: "10px", verticalAlign: "bottom", justifyItems: "center" }}>
-                                <div style={{ fontSize: "18px" }}>中張暗刻 4 符</div>
-                                <div style={{ marginTop: "40px", padding: "5px", display: "inline-flex", gap: "10px" }}>{renderHandTriplet(["5p", "5p", "5p"], false)}</div>
+                            <td style={{ padding: "5px", justifyItems: "center" }}>
+                                <div style={{ fontSize: "16px" }}>中張暗刻 4 符</div>
                             </td>
-                            <td style={{ padding: "10px", verticalAlign: "bottom", justifyItems: "center" }}>
-                                <div style={{ fontSize: "18px" }}>中張大明槓 8 符</div>
-                                <div style={{ marginTop: "40px", padding: "5px", display: "inline-flex", gap: "10px" }}>{renderExposedKong(["6s", "6s", "6s", "6s"], 0.2)}</div>
+                            <td style={{ padding: "5px", justifyItems: "center" }}>
+                                <div style={{ fontSize: "16px" }}>中張大明槓 8 符</div>
                             </td>
-                            <td style={{ padding: "10px", verticalAlign: "bottom", justifyItems: "center" }}>
-                                <div style={{ fontSize: "18px" }}>中張加槓 8 符</div>
-                                <div style={{ marginTop: "10px", padding: "5px", display: "inline-flex", gap: "10px" }}>{renderExposedKong(["7m", "7m", "7m", "7m"], 0.9)}</div>
+                            <td style={{ padding: "5px", justifyItems: "center" }}>
+                                <div style={{ fontSize: "16px" }}>中張加槓 8 符</div>
                             </td>
-                            <td style={{ padding: "10px", verticalAlign: "bottom", justifyItems: "center" }}>
-                                <div style={{ fontSize: "18px" }}>中張暗槓 16 符</div>
-                                <div style={{ marginTop: "40px", padding: "5px", display: "inline-flex", gap: "10px" }}>{renderConcealedKong(["8p", "8p", "8p", "8p"])}</div>
+                            <td style={{ padding: "5px", justifyItems: "center" }}>
+                                <div style={{ fontSize: "16px" }}>中張暗槓 16 符</div>
                             </td>
                         </tr>
                         <tr>
-                            <td style={{ padding: "10px", verticalAlign: "bottom", justifyItems: "center" }}>
-                                <div style={{ fontSize: "18px" }}>么九明刻 4 符</div>
-                                <div style={{ marginTop: "40px", padding: "5px", display: "inline-flex", gap: "10px" }}>{renderPong(["1m", "1m", "1m"], 0.1)}</div>
+                            <td style={{ padding: "5px", verticalAlign: "bottom", justifyItems: "center" }}>
+                                <div style={{ padding: "5px", display: "inline-flex", gap: "10px" }}>{renderPong(["4m", "4m", "4m"], 0.1)}</div>
                             </td>
-                            <td style={{ padding: "10px", verticalAlign: "bottom", justifyItems: "center" }}>
-                                <div style={{ fontSize: "18px" }}>么九暗刻 8 符</div>
-                                <div style={{ marginTop: "40px", padding: "5px", display: "inline-flex", gap: "10px" }}>{renderHandTriplet(["9p", "9p", "9p"], false)}</div>
+                            <td style={{ padding: "5px", verticalAlign: "bottom", justifyItems: "center" }}>
+                                <div style={{ padding: "5px", display: "inline-flex", gap: "10px" }}>{renderHandTriplet(["5p", "5p", "5p"], false)}</div>
                             </td>
-                            <td style={{ padding: "10px", verticalAlign: "bottom", justifyItems: "center" }}>
-                                <div style={{ fontSize: "18px" }}>么九大明槓 16 符</div>
-                                <div style={{ marginTop: "40px", padding: "5px", display: "inline-flex", gap: "10px" }}>{renderExposedKong(["9s", "9s", "9s", "9s"], 0.2)}</div>
+                            <td style={{ padding: "5px", verticalAlign: "bottom", justifyItems: "center" }}>
+                                <div style={{ padding: "5px", display: "inline-flex", gap: "10px" }}>{renderExposedKong(["6s", "6s", "6s", "6s"], 0.2)}</div>
                             </td>
-                            <td style={{ padding: "10px", verticalAlign: "bottom", justifyItems: "center" }}>
-                                <div style={{ fontSize: "18px" }}>么九加槓 16 符</div>
-                                <div style={{ marginTop: "10px", padding: "5px", display: "inline-flex", gap: "10px" }}>{renderExposedKong(["1z", "1z", "1z", "1z"], 0.9)}</div>
+                            <td style={{ padding: "5px", verticalAlign: "bottom", justifyItems: "center" }}>
+                                <div style={{ padding: "5px", display: "inline-flex", gap: "10px" }}>{renderExposedKong(["7m", "7m", "7m", "7m"], 0.9)}</div>
                             </td>
-                            <td style={{ padding: "10px", verticalAlign: "bottom", justifyItems: "center" }}>
-                                <div style={{ fontSize: "18px" }}>么九暗槓 32 符</div>
-                                <div style={{ marginTop: "40px", padding: "5px", display: "inline-flex", gap: "10px" }}>{renderConcealedKong(["2z", "2z", "2z", "2z"])}</div>
+                            <td style={{ padding: "5px", verticalAlign: "bottom", justifyItems: "center" }}>
+                                <div style={{ padding: "5px", display: "inline-flex", gap: "10px" }}>{renderConcealedKong(["8p", "8p", "8p", "8p"])}</div>
                             </td>
                         </tr>
                         <tr>
-                            <td colSpan={2} style={{ padding: "10px", justifyItems: "center" }}>
-                                <div style={{ fontSize: "18px" }}>順子 0 符</div>
-                                <div style={{ marginTop: "10px", padding: "5px", display: "inline-flex", gap: "10px" }}>
+                            <td style={{ padding: "5px", justifyItems: "center" }}>
+                                <div style={{ fontSize: "16px" }}>么九明刻 4 符</div>
+                            </td>
+                            <td style={{ padding: "5px", justifyItems: "center" }}>
+                                <div style={{ fontSize: "16px" }}>么九暗刻 8 符</div>
+                            </td>
+                            <td style={{ padding: "5px", justifyItems: "center" }}>
+                                <div style={{ fontSize: "16px" }}>么九大明槓 16 符</div>
+                            </td>
+                            <td style={{ padding: "5px", justifyItems: "center" }}>
+                                <div style={{ fontSize: "16px" }}>么九加槓 16 符</div>
+                            </td>
+                            <td style={{ padding: "5px", justifyItems: "center" }}>
+                                <div style={{ fontSize: "16px" }}>么九暗槓 32 符</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style={{ padding: "5px", verticalAlign: "bottom", justifyItems: "center" }}>
+                                <div style={{ padding: "5px", display: "inline-flex", gap: "10px" }}>{renderPong(["1m", "1m", "1m"], 0.1)}</div>
+                            </td>
+                            <td style={{ padding: "5px", verticalAlign: "bottom", justifyItems: "center" }}>
+                                <div style={{ padding: "5px", display: "inline-flex", gap: "10px" }}>{renderHandTriplet(["9p", "9p", "9p"], false)}</div>
+                            </td>
+                            <td style={{ padding: "5px", verticalAlign: "bottom", justifyItems: "center" }}>
+                                <div style={{ padding: "5px", display: "inline-flex", gap: "10px" }}>{renderExposedKong(["9s", "9s", "9s", "9s"], 0.2)}</div>
+                            </td>
+                            <td style={{ padding: "5px", verticalAlign: "bottom", justifyItems: "center" }}>
+                                <div style={{ padding: "5px", display: "inline-flex", gap: "10px" }}>{renderExposedKong(["1z", "1z", "1z", "1z"], 0.9)}</div>
+                            </td>
+                            <td style={{ padding: "5px", verticalAlign: "bottom", justifyItems: "center" }}>
+                                <div style={{ padding: "5px", display: "inline-flex", gap: "10px" }}>{renderConcealedKong(["2z", "2z", "2z", "2z"])}</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colSpan={2} style={{ padding: "5px", justifyItems: "center" }}>
+                                <div style={{ fontSize: "16px" }}>順子 0 符</div>
+                            </td>
+                            <td colSpan={3} style={{ padding: "5px", justifyItems: "center" }}>
+                                <div style={{ fontSize: "18px", fontWeight: "bold" }}>和牌符</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colSpan={2} style={{ padding: "5px", justifyItems: "center" }}>
+                                <div style={{ padding: "5px", display: "inline-flex", gap: "10px" }}>
                                     {renderHandSequence(["7m", "8m", "9m"], false, 0)}
                                     {renderChow(["7p", "8p", "9p"], false, 0)}
                                 </div>
                             </td>
-                            <td colSpan={3} style={{ padding: "10px", justifyItems: "center" }}>
-                                <div style={{ fontSize: "18px", fontWeight: "bold", margin: "10px" }}>和牌符</div>
-                                <div style={{ fontSize: "18px", margin: "10px" }}>底符 20 符</div>
-                                <div style={{ fontSize: "18px", margin: "10px" }}>門清榮和 10 符</div>
-                                <div style={{ fontSize: "18px", margin: "10px" }}>自摸和 2 符</div>
+                            <td colSpan={3} style={{ padding: "5px", justifyItems: "center" }}>
+                                <div style={{ fontSize: "16px" }}>底符 20 符</div>
+                                <div style={{ fontSize: "16px" }}>門清榮和 10 符</div>
+                                <div style={{ fontSize: "16px" }}>自摸和 2 符</div>
                             </td>
                         </tr>
                         <tr>
-                            <td style={{ padding: "10px", fontSize: "18px", fontWeight: "bold" }}>雀頭符</td>
-                            <td style={{ padding: "10px", justifyItems: "center" }}>
-                                <div style={{ fontSize: "18px" }}>役牌雀頭 2 符</div>
-                                <div style={{ fontSize: "18px" }}>（場風、自風、三元牌）</div>
-                                <div style={{ marginTop: "10px", padding: "5px", display: "inline-flex", gap: "10px" }}>{renderHandPairs(["5z", "5z"], false)}</div>
+                            <td rowSpan={2} style={{ padding: "10px", fontSize: "18px", fontWeight: "bold" }}>
+                                雀頭符
                             </td>
-                            <td style={{ padding: "10px", justifyItems: "center" }}>
-                                <div style={{ fontSize: "18px" }}>連風役牌雀頭 4 符</div>
-                                <div style={{ fontSize: "18px" }}>（如：東場東家）</div>
-                                <div style={{ marginTop: "10px", padding: "5px", display: "inline-flex", gap: "10px" }}>{renderHandPairs(["1z", "1z"], false)}</div>
+                            <td style={{ padding: "5px", justifyItems: "center" }}>
+                                <div style={{ fontSize: "16px" }}>役牌雀頭 2 符</div>
+                                <div style={{ fontSize: "16px" }}>（場風、自風、三元牌）</div>
                             </td>
-                            <td style={{ padding: "10px", justifyItems: "center" }}>
-                                <div style={{ fontSize: "18px" }}>非役牌雀頭 0 符</div>
-                                <div style={{ marginTop: "30px", padding: "5px", display: "inline-flex", gap: "10px" }}>{renderHandPairs(["5m", "5m"], false)}</div>
+                            <td style={{ padding: "5px", justifyItems: "center" }}>
+                                <div style={{ fontSize: "16px" }}>連風役牌雀頭 4 符</div>
+                                <div style={{ fontSize: "16px" }}>（如：東場東家）</div>
                             </td>
-                            <td colSpan={2} style={{ padding: "10px", justifyItems: "center" }}>
-                                <div style={{ fontSize: "18px", fontWeight: "bold", margin: "10px" }}>特殊規則</div>
-                                <div style={{ fontSize: "18px", margin: "10px" }}>符數需要無條件進位至 10 的倍數</div>
-                                <div style={{ fontSize: "18px", margin: "10px" }}>七對子計為 25 符</div>
-                                <div style={{ fontSize: "18px", margin: "10px" }}>平和自摸計為 20 符</div>
-                                <div style={{ fontSize: "18px", margin: "10px" }}>吃牌後 20 符，計為 30 符</div>
+                            <td style={{ padding: "5px", justifyItems: "center" }}>
+                                <div style={{ fontSize: "16px" }}>非役牌雀頭 0 符</div>
+                            </td>
+                            <td colSpan={2} style={{ padding: "5px", justifyItems: "center" }}>
+                                <div style={{ fontSize: "18px", fontWeight: "bold" }}>特殊規則</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style={{ padding: "5px", justifyItems: "center" }}>
+                                <div style={{ padding: "5px", display: "inline-flex", gap: "10px" }}>{renderHandPairs(["5z", "5z"], false)}</div>
+                            </td>
+                            <td style={{ padding: "5px", justifyItems: "center" }}>
+                                <div style={{ padding: "5px", display: "inline-flex", gap: "10px" }}>{renderHandPairs(["1z", "1z"], false)}</div>
+                            </td>
+                            <td style={{ padding: "5px", justifyItems: "center" }}>
+                                <div style={{ padding: "5px", display: "inline-flex", gap: "10px" }}>{renderHandPairs(["5m", "5m"], false)}</div>
+                            </td>
+                            <td colSpan={2} style={{ padding: "5px", justifyItems: "center" }}>
+                                <div style={{ fontSize: "16px" }}>符數需要無條件進位至 10 的倍數</div>
+                                <div style={{ fontSize: "16px" }}>七對子計為 25 符</div>
+                                <div style={{ fontSize: "16px" }}>平和自摸計為 20 符</div>
+                                <div style={{ fontSize: "16px" }}>吃牌後 20 符，計為 30 符</div>
                             </td>
                         </tr>
                     </table>

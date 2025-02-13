@@ -136,14 +136,14 @@ function PureOnesReadyTrainer() {
 
         useEffect(() => {
             if (isWaiting) {
-                setCountdown(3); // 重置倒數時間
+                setCountdown(5); // 重置倒數時間
                 const interval = setInterval(() => {
                     setCountdown((prev) => prev - 1);
                 }, 1000);
 
                 const timeout = setTimeout(() => {
                     setCountdown(0);
-                }, 3000);
+                }, 5000);
 
                 return () => {
                     clearInterval(interval);
@@ -178,7 +178,7 @@ function PureOnesReadyTrainer() {
                 }
                 setIsWaiting(false);
                 attemptExecuted.current = false; // 在遊戲重啟後重置為未執行
-            }, 3000);
+            }, 5000);
         }
     };
 
@@ -266,7 +266,7 @@ function PureOnesReadyTrainer() {
                     setTimeLeft(timeLimit);
                     setIsTimerRunning(true);
                 }
-            }, 3000);
+            }, 5000);
         }
     };
 

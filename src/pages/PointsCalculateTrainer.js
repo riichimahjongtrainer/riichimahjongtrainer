@@ -158,9 +158,6 @@ function MahjongPointCalculator() {
         const { correctPoints } = question;
         const { dealer, nonDealer } = userInput;
 
-        console.log(correctPoints);
-        console.log(userInput);
-
         let isCorrect = false;
 
         // 根據問題類型檢查答案
@@ -323,7 +320,7 @@ function MahjongPointCalculator() {
     const { dealerTableRows, nonDealerTableRows } = generatePointsTable();
 
     return (
-        <div style={{ maxWidth: "100%", margin: "0 auto", fontFamily: "Arial, sans-serif", textAlign: "center" }}>
+        <div style={{ maxWidth: "100%", boxSizing: "border-box", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
             <div style={{ fontSize: "clamp(28px, 2vw, 32px)", fontWeight: "bold" }}>點數計算練習</div>
 
             {/* 問題展示 */}
@@ -344,7 +341,7 @@ function MahjongPointCalculator() {
                                     value={userInput.dealer}
                                     onChange={(e) => handleInputChange(e, "dealer")}
                                     style={{
-                                        width: "100px",
+                                        width: "130px",
                                         padding: "5px",
                                         border: "2px solid #000000",
                                         borderRadius: "5px",
@@ -364,7 +361,7 @@ function MahjongPointCalculator() {
                                     value={userInput.nonDealer}
                                     onChange={(e) => handleInputChange(e, "nonDealer")}
                                     style={{
-                                        width: "100px",
+                                        width: "130px",
                                         padding: "5px",
                                         border: "2px solid #000000",
                                         borderRadius: "5px",
@@ -386,7 +383,7 @@ function MahjongPointCalculator() {
                                 onChange={(e) => handleInputChange(e, "nonDealer")}
                                 placeholder="其他子家"
                                 style={{
-                                    width: "100px",
+                                    width: "130px",
                                     padding: "5px",
                                     border: "2px solid #000000",
                                     borderRadius: "5px",
@@ -402,7 +399,7 @@ function MahjongPointCalculator() {
                                 onChange={(e) => handleInputChange(e, "dealer")}
                                 placeholder="莊家"
                                 style={{
-                                    width: "100px",
+                                    width: "130px",
                                     padding: "5px",
                                     border: "2px solid #000000",
                                     borderRadius: "5px",
@@ -423,7 +420,7 @@ function MahjongPointCalculator() {
                                 value={userInput.nonDealer}
                                 onChange={(e) => handleInputChange(e, "nonDealer")}
                                 style={{
-                                    width: "100px",
+                                    width: "130px",
                                     padding: "5px",
                                     border: "2px solid #000000",
                                     borderRadius: "5px",
@@ -474,6 +471,11 @@ function MahjongPointCalculator() {
                 </button>
             </div>
 
+            <label>
+                <input type="checkbox" checked={isTable} onChange={(e) => setIsTable(e.target.checked)} />
+                顯示點數表
+            </label>
+
             {showResult && (
                 <div
                     style={{
@@ -499,11 +501,6 @@ function MahjongPointCalculator() {
                     </div>
                 </div>
             )}
-
-            <label>
-                <input type="checkbox" checked={isTable} onChange={(e) => setIsTable(e.target.checked)} />
-                顯示點數表
-            </label>
 
             {/* 顯示表格 */}
             {isTable && (

@@ -163,8 +163,6 @@ function EfficiencyTrainer() {
             }
         });
 
-        console.log(handTiles.length);
-
         // 如果牌數不為14張，顯示錯誤訊息
         if (handTiles.length < 14) {
             setErrorMessage("手牌少於 14 張");
@@ -213,7 +211,7 @@ function EfficiencyTrainer() {
                         <div style={{ display: "flex", alignItems: "center" }}>
                             <div style={{ fontWeight: "bold", marginRight: "5px", marginBottom: "22px" }}>切</div>
                             <img src={`${process.env.PUBLIC_URL}/images/${discarded}.png`} alt={discarded} style={{ width: "30px", height: "auto", marginBottom: "22px", marginRight: "10px" }} />
-                            <div style={{ fontWeight: "bold", marginRight: "5px", marginBottom: "22px" }}>摸</div>
+                            <div style={{ fontWeight: "bold", marginRight: "5px", marginBottom: "22px" }}>{shantenNum === 0 ? <div>聽</div> : <div>摸</div>}</div>
 
                             <div style={{ display: "flex", flexWrap: "wrap", gap: "0px" }}>
                                 {Object.entries(data.improvements).map(([tile, count]) => (
