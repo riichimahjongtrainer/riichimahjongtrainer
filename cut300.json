@@ -89,6 +89,96 @@
             "doraIndicator": ["1m"],
             "hands": ["4m", "0m", "6m", "9m", "9m", "1p", "1p", "3p", "3p", "3s", "4s", "5s", "6s", "7s"],
             "answer": "3p"
+        },
+        {
+            "questionId": 11,
+            "roundWind": "東",
+            "seatWind": "西",
+            "turn": 7,
+            "doraIndicator": ["8s"],
+            "hands": ["1m", "2m", "3m", "4m", "5p", "6p", "7p", "8p", "1s", "2s", "2s", "2s", "3s", "3s"],
+            "answer": "1m"
+        },
+        {
+            "questionId": 12,
+            "roundWind": "東",
+            "seatWind": "東",
+            "turn": 5,
+            "doraIndicator": ["6p"],
+            "hands": ["5m", "5m", "6m", "7m", "8m", "3p", "4p", "6p", "7p", "2s", "4s", "6s", "6s", "8s"],
+            "answer": "2s"
+        },
+        {
+            "questionId": 13,
+            "roundWind": "東",
+            "seatWind": "西",
+            "turn": 4,
+            "doraIndicator": ["2z"],
+            "hands": ["6m", "7m", "8m", "1p", "2p", "3p", "3p", "0p", "6p", "1s", "2s", "3s", "7s", "8s"],
+            "answer": "2p"
+        },
+        {
+            "questionId": 14,
+            "roundWind": "東",
+            "seatWind": "東",
+            "turn": 7,
+            "doraIndicator": ["8m"],
+            "hands": ["2m", "3m", "4m", "8m", "9m", "6p", "6p", "6p", "7p", "3s", "4s", "7s", "8s", "9s"],
+            "answer": "8m"
+        },
+        {
+            "questionId": 15,
+            "roundWind": "東",
+            "seatWind": "東",
+            "turn": 6,
+            "doraIndicator": ["6m"],
+            "hands": ["2m", "2m", "0m", "7m", "3p", "4p", "6p", "6p", "2s", "2s", "5s", "6s", "7s", "8s"],
+            "answer": "8s"
+        },
+        {
+            "questionId": 16,
+            "roundWind": "東",
+            "seatWind": "東",
+            "turn": 7,
+            "doraIndicator": ["2p"],
+            "hands": ["1m", "3m", "4m", "5m", "5m", "6m", "6p", "7p", "3s", "0s", "7s", "8s", "8s", "9s"],
+            "answer": "1m"
+        },
+        {
+            "questionId": 17,
+            "roundWind": "東",
+            "seatWind": "西",
+            "turn": 7,
+            "doraIndicator": ["1m"],
+            "hands": ["1m", "2m", "3m", "5m", "7m", "8m", "8m", "9m", "0p", "6p", "7p", "5s", "5s", "6s"],
+            "answer": "8m"
+        },
+        {
+            "questionId": 18,
+            "roundWind": "東",
+            "seatWind": "東",
+            "turn": 5,
+            "doraIndicator": ["3m"],
+            "hands": ["2p", "2p", "3p", "3p", "5p", "5p", "6p", "6p", "7p", "8p", "5s", "6s", "6s", "7s"],
+            "answer": "8p"
+        },
+        {
+            "questionId": 19,
+            "roundWind": "東",
+            "seatWind": "東",
+            "turn": 8,
+            "doraIndicator": ["3m"],
+            "hands": ["4m", "5m", "5m", "6m", "6m", "6m", "3p", "4p", "4p", "4p", "5p", "6p", "7p", "7p"],
+            "answer": "7p"
+        },
+        {
+            "questionId": 20,
+            "roundWind": "東",
+            "seatWind": "西",
+            "turn": 7,
+            "doraIndicator": ["3s"],
+            "hands": ["4m", "5m", "6p", "7p", "8p", "9p", "9p", "1s", "1s", "2s", "3s", "4s", "6s", "7s"],
+            "answer": "9p"
         }
     ]
 }
